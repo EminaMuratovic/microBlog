@@ -1,6 +1,14 @@
-@(message: String)
+@(loginForm: Form[Application.Login])
+
+@import helper._
 
 @main("Welcome to Play") {
+	<div class="container">
 
-   
+   @helper.form(routes.Application.signin()) {
+   	@helper.inputText(loginForm("email"))
+    @helper.inputPassword(loginForm("password"))
+    <input type="submit" value="Login" clas="btn btn-info" />
+    }
+    </div>
 }

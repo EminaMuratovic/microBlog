@@ -43,5 +43,9 @@ public class User extends Model{
 	public static User find(long id) {
 		return find.byId(id);
 	}
+	
+	public static User find(String email) {
+		return find.where().eq("email", email).findUnique();
+	}
 
 }
