@@ -1,5 +1,7 @@
 package models;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 import play.data.validation.Constraints.*;
@@ -17,6 +19,9 @@ public class User extends Model{
 	
 	@MinLength(6)
 	public String password;
+	
+	@OneToMany(mappedBy="author")
+	public List<Post> posts;
 	
 	static Finder<Long, User> find = new Finder<Long, User>(long.class, User.class);
 	
@@ -46,6 +51,16 @@ public class User extends Model{
 	
 	public static User find(String email) {
 		return find.where().eq("email", email).findUnique();
+	}
+	
+	public static User authenticate(String email, String password) {
+		User u = find(email);
+		if(u == null)
+			return null;
+		if(HashHelper.checkPassword(password, u.password))
+			return u;
+		
+		return null;
 	}
 
 }

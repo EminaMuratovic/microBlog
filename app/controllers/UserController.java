@@ -9,6 +9,7 @@ import models.*;
 public class UserController extends Controller {
 
 	static Form<User> userForm = new Form<User>(User.class);
+	static Form<Post> postForm = new Form<Post>(Post.class);
 	
 	public static Result create() {
 		Form<User> filled = userForm.bindFromRequest();
@@ -25,8 +26,9 @@ public class UserController extends Controller {
 		return ok(signup.render(userForm));
 	}
 	
+	@Security.Authenticated(Session.class) //da ne moze vidjeti home page ako nije logiran
 	public static Result show(long id) {
 		User u = User.find(id);
-		return ok(showuser.render(u));
+		return ok(showuser.render(u, postForm));
 	}
 }
